@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../Context/ContextAPI";
 
-export default function DefaultLayout() {
+export default function GuessLayout() {
     
     const {token} = useStateContext()
     
-    if(token) {
+    if(!token) {
         
-        return <Navigate to = "/admin"></Navigate>
+        return <Navigate to = "/login"></Navigate>
     }
     
     return (

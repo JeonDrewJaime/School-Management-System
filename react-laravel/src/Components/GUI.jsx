@@ -8,6 +8,7 @@ import {AppBar, Toolbar, IconButton, Typography} from '@mui/material';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import SimpleReactFooter from 'simple-react-footer';
 
 
 
@@ -40,7 +41,7 @@ export const Navbar = () => {
 export function PreLoader() {
     return (
       <div class= 'fade-in'>
-         <Box sx={{ mt: '29vmin', mb: '31vmin'}}>
+         <Box>
            <img src="https://i.ibb.co/j4ZtgdF/804.gif" width='400vw' alt="804"></img>
          </Box>
       </div>
@@ -50,13 +51,12 @@ export function PreLoader() {
 export const Buttons = (props) =>{
     return (
     <div class = {props.animation}> 
-      <Button onClick={handleSubmit} type= {props.type} 
+      <Button
       sx={{backgroundColor: '#1b44aa'}}
          variant={props.v}
-         fullWidth = {props.fullW}
          disabled = {props.dis}
-         href = {props.h}
-         p = {props.p}
+         fullWidth = {props.fW}
+
          >
         <Typography fontWeight={700} fontSize={20}>{props.label}</Typography>
       </Button>
@@ -67,14 +67,14 @@ export const Buttons = (props) =>{
 export const Texts = (props) => {
   return (
     <div class={props.animation}>
-      <a>
+    
        <Typography 
          color={props.c} 
          fontSize={props.s}
          fontWeight={props.fw}>
          {props.text}
        </Typography>
-     </a>
+  
     </div>
   );
 }
@@ -104,13 +104,47 @@ export const TextFields =( {name, ...otherProps}) => {
 }
 
 export const Footer = () => {
-    return (
-        <div class = "fade-in-bottom" id = "menu">
-        <Box sx={{backgroundColor: '#033564', display: 'flex', justifyContent: 'right'}}> 
-         <a href = "https://www.facebook.com/" target='_blank'>  
-            <FacebookRoundedIcon sx={{fontSize: '6vmin', p: '1.3vmin', color: 'white', '&:hover': { color: '#ebff78', transition: '0.5s',} }} />
-         </a>  
-        </Box>
-        </div>
-    )
-}
+  const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+    const title = "Lorem Ipsum";
+  
+    const columns = [{
+      title: "Column 1",
+      resources: [{
+        name: "Item 1",
+        link: "/item1"
+      },{
+        name: "Item 2",
+        link: "/item2"
+      },{
+        name: "Item 3",
+        link: "/item3"
+      },{
+        name: "Item 4",
+        link: "/item4"
+      }]
+    },{
+      title: "Column 2",
+      resources: [{
+        name: "Item 5",
+        link: "/item5"
+      },{
+        name: "Item 6",
+        link: "/item6"
+      }]
+    },{
+      title: "Column 3",
+      resources: [{
+        name: "Item 7",
+        link: "/item7"
+      },{
+        name: "Item 8",
+        link: "/item8"
+      }]
+    }];
+  
+    return <SimpleReactFooter
+      description={description}
+      title={title}
+      columns={columns}
+    />;
+  }
