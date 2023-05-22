@@ -1,15 +1,15 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useStateContext } from "../Context/ContextAPI";
+import { useStateContext } from "../contexta/ContextAPI";
 
 export default function DefaultLayout() {
+    /*
+    const {student, token} = useStateContext()
     
-    const {token} = useStateContext()
-    
-    if(token) {
+    if(!token) {
         
-        return <Navigate to = "/admin"></Navigate>
+        return <Navigate to = "/login"></Navigate>
     }
-    
+    */
     return (
         
         <div>

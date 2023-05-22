@@ -11,7 +11,7 @@ class StudLoginReq extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,8 +22,7 @@ class StudLoginReq extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'exists:students,id',
-            'student_pass' => 'required'
+            //
         ];
     }
 }

@@ -2,8 +2,8 @@ import { createContext, useContext, useState } from "react";
 
 // this context API prevents user/students from accessing other pages without auth
 const StateContext =  createContext ({
-    user: null,
-    token: null,
+    student: null,
+    stud_token: null,
     setStudent: () => {},
     setToken: () => {}
 })
@@ -12,8 +12,8 @@ const StateContext =  createContext ({
 export const ContextAPI  = ({children}) => {
 
     //defining functions for state
-    const [user, setStudent] = useState({});
-    const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
+    const [student, setStudent] = useState({});
+    const [stud_token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
 
     //separate function for accepting tokens, this is where we validate and save tokens into local storage
     const setToken = (token) => {
@@ -36,8 +36,8 @@ export const ContextAPI  = ({children}) => {
         // the value is from the functions above, setToken function is being used rather than the setStudToken because 
         //setToken is the one who haves the value for setStudToken and also checks if that student token exists.
         <StateContext.Provider value={{ 
-            user, 
-            token, 
+            student, 
+            stud_token, 
             setStudent, 
             setToken 
         }}>
