@@ -1,24 +1,29 @@
-import axios from 'axios'
+import axios from "axios";
 
 const axiosClient = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL
 });
 
-//interceptors for request and response
-
+//interceptors
 axiosClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem('ACCESS_TOKEN');
-    config.headers.Authorization = `Bearer ${token}`;
+    const stud_token = localStorage.getItem('ACCESS_TOKEN');
+    config.headers.Authorization = `Bearer ${stud_token}`; //bearer token = gain access to API using token itself
     return config;
 });
 
-axiosClient.interceptors.response.use((response) => {
-    return response;
-}, (error) => {
-    const { response } = error;
-    if(response.status == 401){ //401 = error code for authorization fail
-        localStorage.removeItem('ACCESS_TOKEN');
-    }
-})
+axiosClient.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        const { response } = error;
+        if (response.status == 401) {
+            // 401 = error code for unauthorized action
+            localStorage.removeItem('ACCESS_TOKEN');
+        } //we can put else statement for other error codes such as 403 or forbidden response error code
 
-export default axiosClient
+        throw error;
+    }
+);
+
+export default axiosClient;
