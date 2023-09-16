@@ -1,15 +1,6 @@
-.App {
-  padding: 0;
-  background: url(https://i.ibb.co/nbGSWYw/STI.png) no-repeat center center/cover;
-  background-attachment: fixed;
-  
-  display: flex;
-  justify-content: center;
-}
 
-#menu {
-  z-index: 2;
-}
+
+
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -19,6 +10,11 @@
   background: #033564;
 }
 
+#loader{
+  display: flex;
+justify-content: center;
+align-items: center;
+}
 ::-webkit-scrollbar-thumb {
   background:#1b44aa;
   transition: 5s;
@@ -32,9 +28,6 @@
 #backgroundImage{
   display: flex;
   justify-content: center;
-  align-items: center;
-
-
 }
 
 

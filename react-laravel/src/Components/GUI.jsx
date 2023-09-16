@@ -3,11 +3,13 @@ import {useField} from 'formik';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import {AppBar, Toolbar, IconButton, Typography} from '@mui/material';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import { Container } from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
+
 
 
 
@@ -33,15 +35,14 @@ export const Navbar = () => {
       </Toolbar>
     </AppBar>
   </Box>
-    
   )
 }
 
 export function PreLoader() {
     return (
       <div class= 'fade-in'>
-         <Box sx={{ mt: '29vmin', mb: '31vmin'}}>
-           <img src="https://i.ibb.co/j4ZtgdF/804.gif" width='400vw' alt="804"></img>
+         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+           <img src="https://i.ibb.co/j4ZtgdF/804.gif" width='400px'alt="804"></img>
          </Box>
       </div>
     );
@@ -50,13 +51,12 @@ export function PreLoader() {
 export const Buttons = (props) =>{
     return (
     <div class = {props.animation}> 
-      <Button onClick={handleSubmit} type= {props.type} 
+      <Button
       sx={{backgroundColor: '#1b44aa'}}
          variant={props.v}
-         fullWidth = {props.fullW}
          disabled = {props.dis}
-         href = {props.h}
-         p = {props.p}
+         fullWidth = {props.fW}
+
          >
         <Typography fontWeight={700} fontSize={20}>{props.label}</Typography>
       </Button>
@@ -67,14 +67,14 @@ export const Buttons = (props) =>{
 export const Texts = (props) => {
   return (
     <div class={props.animation}>
-      <a>
+    
        <Typography 
          color={props.c} 
          fontSize={props.s}
          fontWeight={props.fw}>
          {props.text}
        </Typography>
-     </a>
+  
     </div>
   );
 }
@@ -104,13 +104,9 @@ export const TextFields =( {name, ...otherProps}) => {
 }
 
 export const Footer = () => {
-    return (
-        <div class = "fade-in-bottom" id = "menu">
-        <Box sx={{backgroundColor: '#033564', display: 'flex', justifyContent: 'right'}}> 
-         <a href = "https://www.facebook.com/" target='_blank'>  
-            <FacebookRoundedIcon sx={{fontSize: '6vmin', p: '1.3vmin', color: 'white', '&:hover': { color: '#ebff78', transition: '0.5s',} }} />
-         </a>  
-        </Box>
-        </div>
-    )
-}
+    return (
+      <Box sx = {{ display: 'grid', backgroundColor: '#033564', color: 'white'}}>
+        <FacebookRoundedIcon sx = {{p: '10px', justifySelf: 'right', fontSize: '60px', backgroundColor: '#033564', color: 'white', '&:hover': { color: '#ebff78', transition: '0.3s'}}}/>
+     </Box>
+  )
+  }
