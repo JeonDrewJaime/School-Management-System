@@ -1,20 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegAdminReq;
 use App\Http\Requests\RegStudentReq;
 use App\Models\Admin;
 use App\Models\Student;
+use App\Models\Users;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function fetchStudentData() {
+
+        $data = Users::where('role', '=', 'student')->get();
+        return response()->json($data);
+    }
+
     public function register_student(RegStudentReq $request)
     {
         $data = $request->validated();
@@ -22,8 +30,9 @@ class AuthController extends Controller
         $student = Student::create([
 
             //column name(db) =>  data sent by frontend
-            'student_name' => $data['student_name'],
-            'student_pass' => bcrypt($data['student_pass'])
+            'user_name' => $data['student_name'],
+            'user_pass' => bcrypt($data['student_pass']),
+            'role' => 'student'
 
         ]);
         $token = $student->createToken('main')->plainTextToken;
@@ -45,48 +54,31 @@ class AuthController extends Controller
         $token = $admin->createToken('main')->plainTextToken;
         return response(compact('admin', 'token'));
     }
-
     public function user_login(Request $request)
     {
         try {
 
-            //validate the request from the react
-            $validateCredentials = $request->validate([
-
-                'user_id' => 'required',
-                'user_pass' => 'required',
-
-            ]);
-
-            $user = array(
-
-                'user_id' => $request->get('user_id'),
-                'user_pass' => $request->get('user_pass')
-
-            );
             //checking if the request exists in the models
-            $student = Student::where('id', '=', $request->user_id)->first();
-            $admin = Admin::where('id', '=', $request->user_id)->first();
-            //student exists
+            $userData = Users::where('id', '=', $request->user_id)->first();
             $role = "";
 
-            if ($student && Hash::check($request->user_pass, $student->student_pass)) { //Hash::check(request from the front end, exists in model)
-                Auth::login($student);
-                $role = "student";
-                /** @var Student $student */ //annonation so we can use the createToken
-                $student = Auth::user();
-                $token = $student->createToken('main')->plainTextToken;
-                return response(compact('student', 'token', 'role'));
-            } else if ($admin && Hash::check($request->user_pass, $admin->admin_pass)) { //admin exists
-                Auth::login($admin);
-                $role = "admin";
-                /** @var Admin $admin */ //annonation so we can use the createToken
-                $admin = Auth::user();
-                $token = $admin->createToken('main')->plainTextToken;
-                return response(compact('admin', 'token', 'role'));
-            } else {
+            if ($userData && $request->user_pass == $userData->password) { //Hash::check(request from the front end, exists in model)
+                Auth::login($userData);
+                /** @var Users $userData */ //annonation so we can use the createToken
+                $userData = Auth::user();
+                $token = $userData->createToken('main')->plainTextToken;
+                if($userData->role == 'admin') {
+
+                    $role = "admin";
+                }else { 
+                    $role = "student";
+
+                }
+                return response(compact('userData', 'token', 'role'));
+               
+            }else {
                 return response([
-                    'message' => 'USER NOT FOUND!'
+                    'message' => 'USER NOT FOUND'
                 ], 422); //422 =  validation error code for react conditional statement
             }
         } catch (Exception $e) {
@@ -95,6 +87,10 @@ class AuthController extends Controller
             var_dump('Error', $error);
         }
 
+    }
+
+    public function studentPaymentSection(Request $request) {
+        
     }
 
     //di pa naman implemented so comment out muna
