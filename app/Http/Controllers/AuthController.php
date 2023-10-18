@@ -11,13 +11,10 @@ use App\Models\Users;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-use Exception;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-
 class AuthController extends Controller
 {
-    public function fetchStudentData() {
+    public function fetchStudentData()
+    {
 
         $data = Users::where('role', '=', 'student')->get();
         return response()->json($data);
@@ -56,41 +53,31 @@ class AuthController extends Controller
     }
     public function user_login(Request $request)
     {
-        try {
+        //checking if the request exists in the models
+        $userData = Users::where('id', '=', $request->user_id)->first();
+        $role = "";
 
-            //checking if the request exists in the models
-            $userData = Users::where('id', '=', $request->user_id)->first();
-            $role = "";
+        if ($userData && $request->user_pass == $userData->password) { //Hash::check(request from the front end, exists in model)
+            Auth::login($userData);
+            /** @var Users $userData */ //annonation so we can use the createToken
+            $userData = Auth::user();
+            $token = $userData->createToken('main')->plainTextToken;
+            if ($userData->role == 'admin') {
 
-            if ($userData && $request->user_pass == $userData->password) { //Hash::check(request from the front end, exists in model)
-                Auth::login($userData);
-                /** @var Users $userData */ //annonation so we can use the createToken
-                $userData = Auth::user();
-                $token = $userData->createToken('main')->plainTextToken;
-                if($userData->role == 'admin') {
-
-                    $role = "admin";
-                }else { 
-                    $role = "student";
-
-                }
-                return response(compact('userData', 'token', 'role'));
-               
-            }else {
-                return response([
-                    'message' => 'USER NOT FOUND'
-                ], 422); //422 =  validation error code for react conditional statement
+                $role = "admin";
+            } else {
+                $role = "student";
             }
-        } catch (Exception $e) {
-
-            $error = $e->__toString();
-            var_dump('Error', $error);
+            return response(compact('userData', 'token', 'role'));
+        } else {
+            return response([
+                'message' => 'USER NOT FOUND'
+            ], 422); //422 =  validation error code for react conditional statement
         }
-
     }
 
-    public function studentPaymentSection(Request $request) {
-        
+    public function studentPaymentSection(Request $request)
+    {
     }
 
     //di pa naman implemented so comment out muna
