@@ -13,7 +13,8 @@ const StateContext = createContext({
 //accepting a children
 export const ContextAPI = ({ children }) => {
     //defining functions for state
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState({
+    });
     const [role, _setRole] = useState(localStorage.getItem('USER_ROLE'));
     const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
     //separate function for accepting tokens, this is where we validate and save tokens into local storage
@@ -25,16 +26,20 @@ export const ContextAPI = ({ children }) => {
         } else {
             //on the other hand, if it does not exist therefore there is no access
             localStorage.removeItem('ACCESS_TOKEN');
+            localStorage.removeItem('USER_ROLE');
+
+
         }
     };
 
     const setRole = (role) => { 
         _setRole(role);
 
-        if(role) {
+        if(role != null) {
             localStorage.setItem('USER_ROLE', role);
         }else { 
             localStorage.removeItem('USER_ROLE');
+            
         }
     }
 
