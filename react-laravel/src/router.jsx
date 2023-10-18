@@ -1,38 +1,74 @@
-import {Navigate, createBrowserRouter} from 'react-router-dom'
-import Admin from './Pages/Admin';
-import Student from './Pages/Student';
-import Login from './Pages/Login';
-import DefaultLayout from './Components/DefaultLayout';
+import { Navigate, createBrowserRouter } from "react-router-dom";
+import LoginLayout from "./Layouts/LoginLayout";
+import Login from "./Components/Login";
+import DefaultLayout from "./Layouts/DefaultLayout";
+import Student from "./Components/Student";
+import Admin from "./Components/Admin";
+import Signup from "./Components/Signup";
+import AddAdmin from "./Components/AddAdmin";
+import AdminLayout from "./Layouts/AdminLayout";
+import NotFound from "./Components/NotFound";
+import NoPermission from "./Components/NoPemission";
+
 const router = createBrowserRouter([
-    
     {
-        
-        path:'/',
+        path: "/",
         element: <DefaultLayout />,
         children: [
-            
             {
-                path: '/',
-                element: <Navigate to="/login" />
-            }, 
-            
+                path: "/",
+                element: <Navigate to="/student" />,
+            },
+
             {
-                path: '/login',
-                element: <Login />
-            }
-        ]
-        
+                path: "/student",
+                element: <Student />,
+            },
+        ],
     },
 
     {
-        path:'/student',
-        element:<Student />
+        path: "/",
+        element: <AdminLayout />,
+        children: [
+            {
+                path: "/admin",
+                element: <Admin />,
+            },
+        ],
     },
-    
+
     {
-        path:'/admin',
-        element:<Admin />
+        path: "/",
+        element: <LoginLayout />,
+        children: [
+            {
+                path: "/login",
+                element: <Login />,
+            },
+
+            {
+                path: "/reg",
+                element: <Signup />,
+            },
+
+            {
+                path: "/regAd",
+                element: <AddAdmin />,
+            },
+        ],
     },
+
+    {
+        path: '/unauthorized',
+        element: <NoPermission />
+
+    },
+
+    {
+        path: '*',
+        element: <NotFound />
+    }
 ]);
 
 export default router;
