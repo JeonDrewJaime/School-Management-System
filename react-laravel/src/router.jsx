@@ -1,14 +1,11 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import LoginLayout from "./Layouts/LoginLayout";
-import Login from "./Components/Login";
-import DefaultLayout from "./Layouts/DefaultLayout";
-import Student from "./Components/Student";
-import Admin from "./Components/Admin";
-import Signup from "./Components/Signup";
-import AddAdmin from "./Components/AddAdmin";
-import AdminLayout from "./Layouts/AdminLayout";
-import NotFound from "./Components/NotFound";
-import NoPermission from "./Components/NoPemission";
+import DefaultLayout from "./Components/DefaultLayout";
+import AdminLayout from "./Components/AdminLayout";
+import LoginLayout from "./Components/LoginLayout";
+import Student from "./Pages/Student"
+import Admin from "./Pages/Admin"
+// import NotFound from "./Components/NotFound";
+// import NoPermission from "./Components/NoPemission";
 
 const router = createBrowserRouter([
     {
@@ -44,31 +41,21 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/login",
-                element: <Login />,
-            },
-
-            {
-                path: "/reg",
-                element: <Signup />,
-            },
-
-            {
-                path: "/regAd",
-                element: <AddAdmin />,
+                element: <LoginLayout />,
             },
         ],
     },
 
-    {
-        path: '/unauthorized',
-        element: <NoPermission />
+    // {
+    //     path: '/unauthorized',
+    //     element: <NoPermission />
 
-    },
+    // },
 
-    {
-        path: '*',
-        element: <NotFound />
-    }
+    // {
+    //     path: '*',
+    //     element: <NotFound />
+    // }
 ]);
 
 export default router;
