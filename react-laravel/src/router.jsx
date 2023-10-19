@@ -3,6 +3,8 @@ import Admin from './Pages/Admin';
 import Student from './Pages/Student';
 import Login from './Pages/Login';
 import DefaultLayout from './Components/DefaultLayout';
+import LoginLayout from './Components/LoginLayout';
+import AdminLayout from './Components/AdminLayout';
 const router = createBrowserRouter([
     
     {
@@ -12,27 +14,42 @@ const router = createBrowserRouter([
         children: [
             
             {
-                path: '/',
-                element: <Navigate to="/login" />
-            }, 
+                path: "/",
+                element: <Navigate to="/student" />,
+            },
             
             {
-                path: '/login',
-                element: <Login />
-            }
+                path: "/student",
+                element: <Student />,
+            },
         ]
         
     },
-
-    {
-        path:'/student',
-        element:<Student />
-    },
     
     {
-        path:'/admin',
-        element:<Admin />
+        path: "/",
+        element: <AdminLayout />,
+        children: [
+            {
+                path: "/admin",
+                element: <Admin />,
+            },
+        ],
     },
+
+    
+    {
+        path: "/",
+        element: <LoginLayout />,
+        children: [
+            {
+                path: "/login",
+                element: <Login />,
+            },
+        ],
+    },
+
+    
 ]);
 
 export default router;
